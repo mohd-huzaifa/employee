@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/admin.css" type="text/css">
+    <title>Update</title>
+</head>
+
+<body>
+    <div class="container-fluid form">
+
+        <form>
+            <div class="row  w-50 shadow mb-4 p-5 justify-content-around">
+                <div class="col-10 column">
+                    <input class="form-control m-3 p-2 form-control-lg" autocomplete="" type="text" id="name" placeholder="Enter name"
+                        aria-label=".form-control-lg example">
+                </div>
+                <div class="col-10 column">
+                    <input class="form-control m-3 p-2 form-control-lg" type="text" id="department"
+                        placeholder="Department" aria-label=".form-control-lg example">
+                </div>
+                <div class="col-10 column">
+                    <input class="form-control m-3 p-2 form-control-lg" type="text" id="phone"
+                        placeholder="Mobile number" aria-label=".form-control-lg example">
+                </div>
+                <div class="col-10 column">
+                    <input class="form-control m-3 p-2 form-control-lg" type="text" id="address" placeholder="Address"
+                        aria-label=".form-control-lg example">
+                </div>
+                <div class="col-10 column ">
+                    <div class="d-grid gap-2 d-md-block">
+                        <button class="btn m-2 p-2 m-3 fill w-100 btn-primary" saveBtn type="button">Save</button>
+                        <button class="btn m-2 p-2 m-3 fill w-100 btn-primary" type="button"><a id="backBtn"
+                                href="admin.html">Go Back</a></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+
+
+        const saveBtn = document.querySelector('[saveBtn]');
+        const inputText = document.querySelectorAll('[type="text"]');
+
+        saveBtn.addEventListener('click', async function () {
+            let userData = [];
+            inputText.forEach((element) => {
+                userData.push(element.value);
+            })
+            const data = {
+                name: userData[0],
+                mobileNumber: userData[2],
+                department: userData[1],
+                address: userData[3]
+            }
+
+            console.log(data)
+
+            const res = await fetch('http://localhost:5550/admin', {
+                method: 'PATCH',
+                headers: {
+                    accept: 'application.json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+
+            const response = await res.json();
+            console.log(response);
+            inputText.forEach((element) => {
+                element.value = "";
+                userData.pop();
+            })
+
+
+        }, false);
+
+    </script>
+</body>
+
+</html>
